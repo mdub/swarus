@@ -9,8 +9,9 @@ async fn main() -> Result<(), Error> {
     let resp = req.send().await?;
     let buckets = resp.buckets.unwrap_or_default();
     for b in buckets.iter() {
-        let name: String = b.name.clone().unwrap().to_string();
-        println!("{}", name);
+        if let Some(name) = &b.name {
+            println!("{}", name);
+        }
     }
     Ok(())
 }
