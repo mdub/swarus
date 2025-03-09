@@ -1,3 +1,4 @@
+use aws_config::BehaviorVersion;
 use aws_sdk_s3::{Client, Error};
 use clap::{Parser, Subcommand};
 
@@ -43,9 +44,8 @@ async fn list_buckets(client: &Client) -> Result<(), Error> {
 #[tokio::main]
 async fn main() -> Result<(), Error> {
     let cli = Cli::parse();
-    let shared_config = aws_config::load_from_env().await;
+    let shared_config = aws_config::defaults(BehaviorVersion::latest()).load().await;
     let client = Client::new(&shared_config);
-
     match cli.command {
         Commands::S3 { command } => match command {
             S3Commands::Buckets => {
