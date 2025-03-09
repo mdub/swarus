@@ -10,3 +10,4 @@ aws-config = "1.5.18"
 aws-sdk-s3 = "1.78.0"
 clap = { version = "4.0", features = ["derive"] }
 tokio = { version = "1", features = ["full"] }
+tracing-subscriber = { version = "0.3", features = ["std", "env-filter"] }

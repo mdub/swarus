@@ -1,6 +1,7 @@
 use aws_config::BehaviorVersion;
 use aws_sdk_s3::{Client, Error};
 use clap::{Parser, Subcommand};
+use tracing_subscriber::{fmt, prelude::*, EnvFilter};
 
 #[derive(Parser)]
 #[command(author, version, about, long_about = None)]
@@ -43,6 +44,7 @@ async fn list_buckets(client: &Client) -> Result<(), Error> {
 
 #[tokio::main]
 async fn main() -> Result<(), Error> {
+    tracing_subscriber::registry().with(fmt::layer()).with(EnvFilter::from_default_env()).init();
     let cli = Cli::parse();
     let shared_config = aws_config::defaults(BehaviorVersion::latest()).load().await;
     let client = Client::new(&shared_config);
